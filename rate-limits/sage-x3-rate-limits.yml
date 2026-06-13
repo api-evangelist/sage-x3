@@ -1,0 +1,46 @@
+name: Sage X3 Rate Limits
+description: >
+  Sage X3 does not publish specific, universal rate limits for its REST or
+  GraphQL web services. Practical limits are determined by deployment type
+  (cloud vs. on-premise), server capacity, and contract terms. The following
+  entries reflect known guidance from Sage developer documentation and
+  community resources.
+url: https://developer.sage.com/x3
+contact: https://communityhub.sage.com/us/sage_x3/f
+
+limits:
+
+  - scope: REST Web Services (Cloud / SaaS)
+    type: undisclosed
+    notes: >
+      Sage X3 Online (SaaS) does not publicly document specific request-per-minute
+      or daily call quotas for REST web services. Limits are enforced server-side
+      and may vary by contract. Exceeding undisclosed thresholds may result in
+      HTTP 429 Too Many Requests responses. Customers should contact Sage support
+      to obtain the limits applicable to their subscription.
+    reference: https://online-help.sagex3.com/erp/12/en-us/Content/V7DEV/integration-guide_ws-overview.html
+
+  - scope: GraphQL API (Cloud and On-Premise)
+    type: undisclosed
+    notes: >
+      The GraphQL endpoint does not have publicly documented rate limits. GraphQL
+      queries should be optimized to avoid deeply nested or overly broad queries
+      which can place excessive load on the server. Use pagination (first / after)
+      to limit result set sizes.
+    reference: https://developer.sage.com/x3/data-integration
+
+  - scope: On-Premise REST / SOAP Web Services
+    type: infrastructure-bound
+    notes: >
+      For on-premise deployments, effective rate limits are determined by the
+      customer's own hardware resources (CPU, memory, Sage X3 Syracuse server
+      capacity). Sage recommends implementing retry logic with exponential
+      back-off and avoiding bursts of concurrent requests to the Syracuse node.
+    reference: https://online-help.sagex3.com/erp/12/en-us/Content/V7DEV/api-guide_api-reference-guide.html
+
+best_practices:
+  - Implement exponential back-off and retry on HTTP 429 or 503 responses.
+  - Use batch endpoints or GraphQL to reduce total request volume.
+  - Cache read-only reference data (items, customers, chart of accounts) locally.
+  - Schedule bulk imports and exports during off-peak hours.
+  - Monitor Syracuse server logs for throttling or resource exhaustion warnings.

@@ -1,0 +1,70 @@
+name: Sage X3 FinOps
+description: >
+  Financial operations considerations for Sage X3 API consumption and
+  integration projects. Covers cost drivers, optimization strategies,
+  and budgeting guidance for teams building on the Sage X3 platform.
+url: https://www.sage.com/en-us/products/sage-x3/
+contact: https://www.sage.com/en-us/contact-us/
+
+cost_drivers:
+
+  - name: License / Subscription Fees
+    description: >
+      The dominant cost for API access is the underlying Sage X3 license.
+      Cloud subscriptions run approximately $200–$500 per named user per month;
+      perpetual on-premise licenses cost $3,000–$5,000 per named user (one-time)
+      plus annual maintenance of 18–22%.
+    category: licensing
+    optimization: >
+      Right-size named vs. limited-access user counts. Review user roles annually
+      and de-provision unused accounts.
+
+  - name: Implementation and Integration Services
+    description: >
+      Professional services for initial implementation typically start at $100,000
+      and often reach $200,000–$300,000+. Custom API integrations add to this cost.
+    category: services
+    optimization: >
+      Use the published REST and GraphQL web services rather than custom SOAP
+      extensions. Leverage the Sage-ERP-X3 GitHub sample repositories to reduce
+      custom development time.
+
+  - name: API Call Volume (SaaS)
+    description: >
+      While Sage X3 does not publish a per-call tariff, excessive API usage in
+      cloud deployments can trigger capacity discussions with Sage account teams
+      or result in service degradation.
+    category: usage
+    optimization: >
+      Implement local caching for reference data. Use GraphQL to fetch only
+      required fields. Batch operations wherever possible using import/export APIs.
+
+  - name: Infrastructure (On-Premise)
+    description: >
+      On-premise customers bear the cost of Syracuse application servers, database
+      servers, and associated infrastructure to support API workloads.
+    category: infrastructure
+    optimization: >
+      Size Syracuse nodes for peak integration load plus a safety margin.
+      Use asynchronous batch task requests for bulk operations to avoid
+      blocking synchronous REST endpoints.
+
+  - name: Third-Party Integration Middleware
+    description: >
+      Many Sage X3 integrations use middleware platforms (MuleSoft, Boomi,
+      Flowgear, Azure Integration Services). Middleware licensing adds cost
+      but reduces custom development overhead.
+    category: tooling
+    optimization: >
+      Evaluate whether native Sage X3 REST or GraphQL APIs with lightweight
+      custom code can replace expensive middleware for simpler integration patterns.
+
+budgeting_guidance:
+  - Obtain a detailed module and user-type breakdown from Sage sales before
+    committing to a license structure, as API capabilities may differ by edition.
+  - Budget separately for integration development (typically 15–25% of total
+    ERP implementation cost).
+  - Include annual maintenance (on-premise) or subscription escalation clauses
+    (cloud) in multi-year financial models.
+  - Factor in Sage partner certification and support contract costs if using
+    a value-added reseller.

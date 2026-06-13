@@ -1,0 +1,58 @@
+name: Sage X3 Plans and Pricing
+description: >
+  Sage X3 is an enterprise ERP solution with custom, negotiated pricing based on
+  deployment model, user count, modules selected, and implementation complexity.
+  There are no publicly listed fixed tiers; all contracts are quote-based.
+url: https://www.sage.com/en-us/products/sage-x3/
+contact: https://www.sage.com/en-us/products/sage-x3/
+
+plans:
+
+  - name: Cloud Subscription (SaaS)
+    description: >
+      Hosted and managed by Sage; billed per named user per month. Includes
+      automatic updates, disaster recovery, and multi-tenant infrastructure.
+      OAuth 2.0 / SSO is the only supported authentication method in cloud mode.
+    type: subscription
+    pricing:
+      model: per-user
+      currency: USD
+      approximate_low: 200
+      approximate_high: 500
+      unit: user/month
+      notes: >
+        Pricing varies by region, module bundle, and user type (full vs.
+        limited access). Annual commitment typically required. Total annual
+        cost for small implementations starts at approximately $25,000–$35,000.
+    deployment: cloud
+    authentication:
+      - OAuth2
+      - SSO (SAML / Azure AD)
+
+  - name: On-Premise Perpetual License
+    description: >
+      Customer-hosted deployment with perpetual license fees plus annual
+      maintenance. Supports Basic Authentication, JWT, and OAuth2 for REST
+      and GraphQL web services.
+    type: perpetual
+    pricing:
+      model: per-user
+      currency: USD
+      approximate_low: 3000
+      approximate_high: 5000
+      unit: named user (one-time)
+      notes: >
+        Annual maintenance typically 18–22% of perpetual license fee.
+        Implementation services start at $100,000 and commonly reach
+        $200,000–$300,000+ depending on scope.
+    deployment: on-premise
+    authentication:
+      - Basic Authentication
+      - JWT
+      - OAuth2
+
+notes: >
+  All pricing is approximate and subject to negotiation. Sage does not publish
+  official rate cards. Contact a Sage partner or Sage sales directly for a
+  formal quote. API access (REST and GraphQL web services) is bundled with
+  any paid Sage X3 subscription or license.
