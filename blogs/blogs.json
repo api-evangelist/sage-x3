@@ -1,0 +1,15 @@
+{
+  "repo": "sage-x3",
+  "feeds": [
+    {
+      "source": "https://communityhub.sage.com/us/sage_x3/b",
+      "feed_url": "https://communityhub.sage.com/us/sage_x3/b",
+      "title": "Sage X3 Community Blog",
+      "saved": 0,
+      "method": "html",
+      "error": "Community hub requires authentication to access blog feed"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-13T00:00:00Z"
+}

@@ -1,0 +1,160 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "sage-x3": "https://www.sage.com/en-us/products/sage-x3/vocab#",
+    "aid": "sage-x3",
+
+    "Organization": "Organization",
+    "name": "name",
+    "description": "description",
+    "url": "url",
+    "logo": "logo",
+    "sameAs": "sameAs",
+
+    "WebAPI": "WebAPI",
+    "documentation": "documentation",
+    "termsOfService": "termsOfService",
+    "provider": "provider",
+    "endpointURL": "endpointURL",
+
+    "SoftwareApplication": "SoftwareApplication",
+    "applicationCategory": "applicationCategory",
+    "operatingSystem": "operatingSystem",
+
+    "salesOrder": {
+      "@id": "sage-x3:salesOrder",
+      "@type": "@id"
+    },
+    "purchaseOrder": {
+      "@id": "sage-x3:purchaseOrder",
+      "@type": "@id"
+    },
+    "inventory": {
+      "@id": "sage-x3:inventory",
+      "@type": "@id"
+    },
+    "customer": {
+      "@id": "sage-x3:customer",
+      "@type": "@id"
+    },
+    "supplier": {
+      "@id": "sage-x3:supplier",
+      "@type": "@id"
+    },
+    "accounting": {
+      "@id": "sage-x3:accounting",
+      "@type": "@id"
+    },
+    "production": {
+      "@id": "sage-x3:production",
+      "@type": "@id"
+    },
+    "distribution": {
+      "@id": "sage-x3:distribution",
+      "@type": "@id"
+    },
+    "financials": {
+      "@id": "sage-x3:financials",
+      "@type": "@id"
+    },
+    "supplyChain": {
+      "@id": "sage-x3:supplyChain",
+      "@type": "@id"
+    },
+    "manufacturing": {
+      "@id": "sage-x3:manufacturing",
+      "@type": "@id"
+    },
+
+    "restWebServices": {
+      "@id": "sage-x3:restWebServices",
+      "@type": "@id"
+    },
+    "graphqlAPI": {
+      "@id": "sage-x3:graphqlAPI",
+      "@type": "@id"
+    },
+    "dataIntegration": {
+      "@id": "sage-x3:dataIntegration",
+      "@type": "@id"
+    },
+    "soapWebServices": {
+      "@id": "sage-x3:soapWebServices",
+      "@type": "@id"
+    },
+    "batchProcessing": {
+      "@id": "sage-x3:batchProcessing",
+      "@type": "@id"
+    },
+    "bulkImport": {
+      "@id": "sage-x3:bulkImport",
+      "@type": "@id"
+    },
+    "bulkExport": {
+      "@id": "sage-x3:bulkExport",
+      "@type": "@id"
+    },
+
+    "authentication": {
+      "@id": "sage-x3:authentication",
+      "@type": "@id"
+    },
+    "basicAuth": {
+      "@id": "sage-x3:basicAuth",
+      "@type": "@id"
+    },
+    "jwtToken": {
+      "@id": "sage-x3:jwtToken",
+      "@type": "@id"
+    },
+    "oauth2": {
+      "@id": "sage-x3:oauth2",
+      "@type": "@id"
+    },
+
+    "cloudDeployment": {
+      "@id": "sage-x3:cloudDeployment",
+      "@type": "@id"
+    },
+    "onPremiseDeployment": {
+      "@id": "sage-x3:onPremiseDeployment",
+      "@type": "@id"
+    },
+
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Sage X3",
+      "description": "Sage X3 is an enterprise ERP platform offering REST and GraphQL APIs for managing manufacturing, distribution, financials, and supply chain operations in mid-market and enterprise organizations.",
+      "url": "https://www.sage.com/en-us/products/sage-x3/",
+      "sameAs": [
+        "https://twitter.com/sageerp",
+        "https://www.linkedin.com/products/sagesoftware-sage-x3",
+        "https://github.com/Sage-ERP-X3"
+      ]
+    },
+    {
+      "@type": "WebAPI",
+      "name": "Sage X3 REST Web Services",
+      "description": "RESTful web service interface for Sage X3 business objects. Supports standard HTTP methods (GET, POST, PUT, DELETE) for managing entities such as customers, suppliers, sales orders, purchase orders, inventory items, and accounting records. Authentication supports Basic Auth (on-premise only), JWT tokens, and OAuth 2.0.",
+      "documentation": "https://online-help.sagex3.com/erp/12/en-us/Content/V7DEV/api-guide_api-reference-guide.html",
+      "endpointURL": "https://{host}/api1/"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "Sage X3 GraphQL API",
+      "description": "GraphQL interface for querying and mutating Sage X3 data. Provides a flexible, strongly-typed schema for accessing business objects with support for filtering, pagination, and selective field retrieval. Supports OAuth 2.0 and Basic Authentication.",
+      "documentation": "https://developer.sage.com/x3/data-integration",
+      "endpointURL": "https://{host}/graphql"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "Sage X3 Data Integration API",
+      "description": "Import/export and data integration API for Sage X3 enabling bulk data operations, batch task submissions, and asynchronous processing for high-volume data exchange scenarios such as inventory updates, order imports, and financial data synchronization.",
+      "documentation": "https://developer.sage.com/x3/data-integration",
+      "endpointURL": "https://{host}/api1/"
+    }
+  ]
+}
