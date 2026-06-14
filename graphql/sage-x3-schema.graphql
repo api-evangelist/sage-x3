@@ -1,0 +1,902 @@
+"""
+Sage X3 GraphQL Schema
+Derived from the Sage X3 ERP business object model exposed via the Xtrem middleware GraphQL layer.
+Endpoint: POST http://<host>:<port>/xtrem/api
+Headers: x-authorization (JWT), x-xtrem-endpoint (folder name, e.g. SAGEX3_SEED)
+Documentation: https://developer.sage.com/x3/graphql/
+"""
+
+# ---------------------------------------------------------------------------
+# Scalars
+# ---------------------------------------------------------------------------
+
+scalar Date
+scalar DateTime
+scalar Decimal
+
+# ---------------------------------------------------------------------------
+# Enums
+# ---------------------------------------------------------------------------
+
+enum OrderStatus {
+  DRAFT
+  OPEN
+  PARTIALLY_DELIVERED
+  DELIVERED
+  INVOICED
+  CANCELLED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PARTIALLY_PAID
+  PAID
+  CANCELLED
+  DISPUTED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CHECK
+  CREDIT_CARD
+  DIRECT_DEBIT
+  CASH
+}
+
+enum StockMovementType {
+  RECEIPT
+  ISSUE
+  TRANSFER
+  ADJUSTMENT
+  RETURN
+  SCRAPPING
+}
+
+enum WorkOrderStatus {
+  PLANNED
+  RELEASED
+  IN_PROGRESS
+  COMPLETED
+  CLOSED
+  CANCELLED
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+  TERMINATED
+}
+
+enum JournalEntryStatus {
+  DRAFT
+  POSTED
+  RECONCILED
+}
+
+# ---------------------------------------------------------------------------
+# Address (embedded)
+# ---------------------------------------------------------------------------
+
+type Address {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+}
+
+input AddressInput {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+}
+
+# ---------------------------------------------------------------------------
+# Currency & Exchange
+# ---------------------------------------------------------------------------
+
+"""Represents a currency supported by the Sage X3 instance."""
+type Currency {
+  code: ID!
+  name: String!
+  symbol: String
+  decimals: Int!
+  active: Boolean!
+}
+
+"""Exchange rate between two currencies on a given date."""
+type Exchange {
+  id: ID!
+  fromCurrency: Currency!
+  toCurrency: Currency!
+  rate: Decimal!
+  effectiveDate: Date!
+  expiryDate: Date
+  source: String
+}
+
+# ---------------------------------------------------------------------------
+# Customer
+# ---------------------------------------------------------------------------
+
+"""A customer (sold-to party) in the Sage X3 accounts receivable module."""
+type Customer {
+  code: ID!
+  name: String!
+  shortName: String
+  category: String
+  currency: Currency
+  language: String
+  vatNumber: String
+  address: Address
+  phone: String
+  email: String
+  website: String
+  creditLimit: Decimal
+  paymentTerms: String
+  accountingCode: AccountingCode
+  active: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+  salesOrders: [SalesOrder!]
+  invoices: [Invoice!]
+  payments: [Payment!]
+}
+
+input CustomerInput {
+  code: String!
+  name: String!
+  shortName: String
+  category: String
+  currencyCode: String
+  language: String
+  vatNumber: String
+  address: AddressInput
+  phone: String
+  email: String
+  website: String
+  creditLimit: Decimal
+  paymentTerms: String
+  accountingCodeId: String
+  active: Boolean
+}
+
+# ---------------------------------------------------------------------------
+# Supplier
+# ---------------------------------------------------------------------------
+
+"""A supplier (buy-from party) in the Sage X3 accounts payable module."""
+type Supplier {
+  code: ID!
+  name: String!
+  shortName: String
+  category: String
+  currency: Currency
+  language: String
+  vatNumber: String
+  address: Address
+  phone: String
+  email: String
+  website: String
+  paymentTerms: String
+  accountingCode: AccountingCode
+  active: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+  purchaseOrders: [PurchaseOrder!]
+  receipts: [Receipt!]
+}
+
+input SupplierInput {
+  code: String!
+  name: String!
+  shortName: String
+  category: String
+  currencyCode: String
+  language: String
+  vatNumber: String
+  address: AddressInput
+  phone: String
+  email: String
+  website: String
+  paymentTerms: String
+  accountingCodeId: String
+  active: Boolean
+}
+
+# ---------------------------------------------------------------------------
+# Product (Item / Article)
+# ---------------------------------------------------------------------------
+
+"""A stocked or non-stocked product/item managed in Sage X3."""
+type Product {
+  code: ID!
+  description: String!
+  shortDescription: String
+  category: String
+  type: String
+  unitOfMeasure: String
+  weight: Decimal
+  volume: Decimal
+  taxCode: String
+  costPrice: Decimal
+  salesPrice: Decimal
+  currency: Currency
+  active: Boolean!
+  stockable: Boolean!
+  purchasable: Boolean!
+  saleable: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+  stockLines: [StockLine!]
+  boms: [BOM!]
+}
+
+input ProductInput {
+  code: String!
+  description: String!
+  shortDescription: String
+  category: String
+  type: String
+  unitOfMeasure: String
+  weight: Decimal
+  volume: Decimal
+  taxCode: String
+  costPrice: Decimal
+  salesPrice: Decimal
+  currencyCode: String
+  active: Boolean
+  stockable: Boolean
+  purchasable: Boolean
+  saleable: Boolean
+}
+
+# ---------------------------------------------------------------------------
+# Sales Order
+# ---------------------------------------------------------------------------
+
+"""A sales order header in the Sage X3 order entry module."""
+type SalesOrder {
+  number: ID!
+  customer: Customer!
+  orderDate: Date!
+  deliveryDate: Date
+  status: OrderStatus!
+  currency: Currency!
+  site: String
+  warehouse: Warehouse
+  lines: [SalesOrderLine!]!
+  totalExclTax: Decimal!
+  totalTax: Decimal!
+  totalInclTax: Decimal!
+  notes: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  invoices: [Invoice!]
+}
+
+type SalesOrderLine {
+  lineNumber: Int!
+  product: Product!
+  description: String
+  quantity: Decimal!
+  unitOfMeasure: String!
+  unitPrice: Decimal!
+  discountPercent: Decimal
+  netAmount: Decimal!
+  taxCode: String
+  deliveryDate: Date
+  warehouse: Warehouse
+}
+
+input SalesOrderInput {
+  customerCode: String!
+  orderDate: Date!
+  deliveryDate: Date
+  currencyCode: String!
+  site: String
+  warehouseCode: String
+  lines: [SalesOrderLineInput!]!
+  notes: String
+}
+
+input SalesOrderLineInput {
+  productCode: String!
+  description: String
+  quantity: Decimal!
+  unitOfMeasure: String!
+  unitPrice: Decimal!
+  discountPercent: Decimal
+  taxCode: String
+  deliveryDate: Date
+  warehouseCode: String
+}
+
+# ---------------------------------------------------------------------------
+# Purchase Order
+# ---------------------------------------------------------------------------
+
+"""A purchase order header in the Sage X3 procurement module."""
+type PurchaseOrder {
+  number: ID!
+  supplier: Supplier!
+  orderDate: Date!
+  expectedReceiptDate: Date
+  status: OrderStatus!
+  currency: Currency!
+  site: String
+  warehouse: Warehouse
+  lines: [PurchaseOrderLine!]!
+  totalExclTax: Decimal!
+  totalTax: Decimal!
+  totalInclTax: Decimal!
+  notes: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  receipts: [Receipt!]
+}
+
+type PurchaseOrderLine {
+  lineNumber: Int!
+  product: Product!
+  description: String
+  quantity: Decimal!
+  unitOfMeasure: String!
+  unitPrice: Decimal!
+  discountPercent: Decimal
+  netAmount: Decimal!
+  taxCode: String
+  expectedReceiptDate: Date
+  warehouse: Warehouse
+}
+
+input PurchaseOrderInput {
+  supplierCode: String!
+  orderDate: Date!
+  expectedReceiptDate: Date
+  currencyCode: String!
+  site: String
+  warehouseCode: String
+  lines: [PurchaseOrderLineInput!]!
+  notes: String
+}
+
+input PurchaseOrderLineInput {
+  productCode: String!
+  description: String
+  quantity: Decimal!
+  unitOfMeasure: String!
+  unitPrice: Decimal!
+  discountPercent: Decimal
+  taxCode: String
+  expectedReceiptDate: Date
+  warehouseCode: String
+}
+
+# ---------------------------------------------------------------------------
+# Invoice
+# ---------------------------------------------------------------------------
+
+"""A customer (AR) or supplier (AP) invoice."""
+type Invoice {
+  number: ID!
+  type: String!
+  customer: Customer
+  supplier: Supplier
+  invoiceDate: Date!
+  dueDate: Date!
+  status: InvoiceStatus!
+  currency: Currency!
+  lines: [InvoiceLine!]!
+  totalExclTax: Decimal!
+  totalTax: Decimal!
+  totalInclTax: Decimal!
+  amountPaid: Decimal!
+  amountOutstanding: Decimal!
+  salesOrder: SalesOrder
+  purchaseOrder: PurchaseOrder
+  journalEntry: JournalEntry
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type InvoiceLine {
+  lineNumber: Int!
+  product: Product
+  description: String!
+  quantity: Decimal!
+  unitOfMeasure: String
+  unitPrice: Decimal!
+  netAmount: Decimal!
+  taxCode: String
+  taxAmount: Decimal!
+  accountingCode: AccountingCode
+  costCenter: CostCenter
+}
+
+# ---------------------------------------------------------------------------
+# Payment
+# ---------------------------------------------------------------------------
+
+"""A payment applied against one or more invoices."""
+type Payment {
+  number: ID!
+  customer: Customer
+  supplier: Supplier
+  paymentDate: Date!
+  method: PaymentMethod!
+  currency: Currency!
+  amount: Decimal!
+  bankAccount: String
+  reference: String
+  invoices: [Invoice!]
+  journalEntry: JournalEntry
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PaymentInput {
+  customerCode: String
+  supplierCode: String
+  paymentDate: Date!
+  method: PaymentMethod!
+  currencyCode: String!
+  amount: Decimal!
+  bankAccount: String
+  reference: String
+  invoiceNumbers: [String!]
+}
+
+# ---------------------------------------------------------------------------
+# Receipt (Goods Receipt)
+# ---------------------------------------------------------------------------
+
+"""A goods receipt (delivery) against a purchase order."""
+type Receipt {
+  number: ID!
+  supplier: Supplier!
+  purchaseOrder: PurchaseOrder
+  receiptDate: Date!
+  warehouse: Warehouse!
+  lines: [ReceiptLine!]!
+  notes: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  stockMovements: [StockMovement!]
+}
+
+type ReceiptLine {
+  lineNumber: Int!
+  product: Product!
+  quantityOrdered: Decimal!
+  quantityReceived: Decimal!
+  unitOfMeasure: String!
+  lotNumber: String
+  serialNumber: String
+  stockLine: StockLine
+}
+
+# ---------------------------------------------------------------------------
+# Warehouse & Stock
+# ---------------------------------------------------------------------------
+
+"""A physical or logical warehouse location in Sage X3."""
+type Warehouse {
+  code: ID!
+  name: String!
+  site: String!
+  address: Address
+  active: Boolean!
+  stockLines: [StockLine!]
+}
+
+"""Current stock position for a product/location combination."""
+type StockLine {
+  id: ID!
+  product: Product!
+  warehouse: Warehouse!
+  location: String
+  lotNumber: String
+  serialNumber: String
+  quantityOnHand: Decimal!
+  quantityAllocated: Decimal!
+  quantityAvailable: Decimal!
+  unitOfMeasure: String!
+  unitCost: Decimal
+  updatedAt: DateTime
+}
+
+"""A transactional stock movement record."""
+type StockMovement {
+  number: ID!
+  type: StockMovementType!
+  product: Product!
+  fromWarehouse: Warehouse
+  toWarehouse: Warehouse
+  fromLocation: String
+  toLocation: String
+  quantity: Decimal!
+  unitOfMeasure: String!
+  lotNumber: String
+  serialNumber: String
+  movementDate: DateTime!
+  reference: String
+  notes: String
+  createdAt: DateTime
+}
+
+# ---------------------------------------------------------------------------
+# Bill of Materials (BOM)
+# ---------------------------------------------------------------------------
+
+"""A bill of materials header defining the structure of a finished product."""
+type BOM {
+  code: ID!
+  product: Product!
+  revision: String
+  effectiveDate: Date
+  expiryDate: Date
+  standardQuantity: Decimal!
+  unitOfMeasure: String!
+  active: Boolean!
+  components: [BOMLine!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type BOMLine {
+  lineNumber: Int!
+  component: Product!
+  quantity: Decimal!
+  unitOfMeasure: String!
+  scrapPercent: Decimal
+  notes: String
+}
+
+# ---------------------------------------------------------------------------
+# Work Order & Production Order
+# ---------------------------------------------------------------------------
+
+"""A manufacturing work order in the Sage X3 production module."""
+type WorkOrder {
+  number: ID!
+  product: Product!
+  bom: BOM
+  plannedQuantity: Decimal!
+  producedQuantity: Decimal!
+  unitOfMeasure: String!
+  warehouse: Warehouse!
+  startDate: Date!
+  dueDate: Date!
+  completionDate: Date
+  status: WorkOrderStatus!
+  productionOrder: ProductionOrder
+  notes: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  stockMovements: [StockMovement!]
+}
+
+"""A production order grouping one or more work orders."""
+type ProductionOrder {
+  number: ID!
+  description: String
+  site: String!
+  startDate: Date!
+  endDate: Date!
+  status: WorkOrderStatus!
+  workOrders: [WorkOrder!]!
+  costCenter: CostCenter
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input WorkOrderInput {
+  productCode: String!
+  bomCode: String
+  plannedQuantity: Decimal!
+  unitOfMeasure: String!
+  warehouseCode: String!
+  startDate: Date!
+  dueDate: Date!
+  productionOrderNumber: String
+  notes: String
+}
+
+# ---------------------------------------------------------------------------
+# Accounting
+# ---------------------------------------------------------------------------
+
+"""A chart-of-accounts code in the Sage X3 general ledger."""
+type AccountingCode {
+  code: ID!
+  description: String!
+  type: String!
+  currency: Currency
+  active: Boolean!
+  balance: Decimal
+  budgetLines: [BudgetLine!]
+}
+
+"""A cost center for management accounting allocation."""
+type CostCenter {
+  code: ID!
+  description: String!
+  type: String
+  active: Boolean!
+  budgetLines: [BudgetLine!]
+}
+
+"""The general ledger — aggregated view of posted journal entries."""
+type GeneralLedger {
+  accountingCode: AccountingCode!
+  fiscalYear: String!
+  period: Int!
+  openingBalance: Decimal!
+  debitMovement: Decimal!
+  creditMovement: Decimal!
+  closingBalance: Decimal!
+  currency: Currency!
+}
+
+"""A double-entry accounting journal entry."""
+type JournalEntry {
+  number: ID!
+  journal: String!
+  entryDate: Date!
+  period: String!
+  fiscalYear: String!
+  status: JournalEntryStatus!
+  reference: String
+  description: String
+  currency: Currency!
+  lines: [JournalEntryLine!]!
+  totalDebit: Decimal!
+  totalCredit: Decimal!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type JournalEntryLine {
+  lineNumber: Int!
+  accountingCode: AccountingCode!
+  costCenter: CostCenter
+  debit: Decimal!
+  credit: Decimal!
+  description: String
+  currency: Currency!
+  exchangeRate: Decimal
+}
+
+"""A budget line allocating an amount to an account code and cost center."""
+type BudgetLine {
+  id: ID!
+  fiscalYear: String!
+  period: Int!
+  accountingCode: AccountingCode!
+  costCenter: CostCenter
+  amount: Decimal!
+  currency: Currency!
+  notes: String
+}
+
+# ---------------------------------------------------------------------------
+# HR
+# ---------------------------------------------------------------------------
+
+"""An employee record in the Sage X3 HR module."""
+type Employee {
+  code: ID!
+  firstName: String!
+  lastName: String!
+  fullName: String!
+  status: EmployeeStatus!
+  department: String
+  jobTitle: String
+  costCenter: CostCenter
+  site: String
+  email: String
+  phone: String
+  hireDate: Date
+  terminationDate: Date
+  timesheets: [Timesheet!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""A weekly or period timesheet submitted by an employee."""
+type Timesheet {
+  id: ID!
+  employee: Employee!
+  periodStart: Date!
+  periodEnd: Date!
+  status: String!
+  totalHours: Decimal!
+  lines: [TimesheetLine!]!
+  submittedAt: DateTime
+  approvedAt: DateTime
+  approvedBy: Employee
+}
+
+type TimesheetLine {
+  lineNumber: Int!
+  workDate: Date!
+  hours: Decimal!
+  activityCode: String
+  costCenter: CostCenter
+  notes: String
+}
+
+# ---------------------------------------------------------------------------
+# Pagination helpers
+# ---------------------------------------------------------------------------
+
+type PageInfo {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  page: Int!
+  pageSize: Int!
+}
+
+type CustomerPage {
+  items: [Customer!]!
+  pageInfo: PageInfo!
+}
+
+type SupplierPage {
+  items: [Supplier!]!
+  pageInfo: PageInfo!
+}
+
+type ProductPage {
+  items: [Product!]!
+  pageInfo: PageInfo!
+}
+
+type SalesOrderPage {
+  items: [SalesOrder!]!
+  pageInfo: PageInfo!
+}
+
+type PurchaseOrderPage {
+  items: [PurchaseOrder!]!
+  pageInfo: PageInfo!
+}
+
+type InvoicePage {
+  items: [Invoice!]!
+  pageInfo: PageInfo!
+}
+
+type StockMovementPage {
+  items: [StockMovement!]!
+  pageInfo: PageInfo!
+}
+
+type JournalEntryPage {
+  items: [JournalEntry!]!
+  pageInfo: PageInfo!
+}
+
+# ---------------------------------------------------------------------------
+# Query
+# ---------------------------------------------------------------------------
+
+type Query {
+  # Customer
+  customer(code: ID!): Customer
+  customers(search: String, category: String, active: Boolean, page: Int, pageSize: Int): CustomerPage!
+
+  # Supplier
+  supplier(code: ID!): Supplier
+  suppliers(search: String, category: String, active: Boolean, page: Int, pageSize: Int): SupplierPage!
+
+  # Product
+  product(code: ID!): Product
+  products(search: String, category: String, active: Boolean, stockable: Boolean, page: Int, pageSize: Int): ProductPage!
+
+  # Sales Order
+  salesOrder(number: ID!): SalesOrder
+  salesOrders(customerCode: String, status: OrderStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): SalesOrderPage!
+
+  # Purchase Order
+  purchaseOrder(number: ID!): PurchaseOrder
+  purchaseOrders(supplierCode: String, status: OrderStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): PurchaseOrderPage!
+
+  # Invoice
+  invoice(number: ID!): Invoice
+  invoices(customerCode: String, supplierCode: String, type: String, status: InvoiceStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): InvoicePage!
+
+  # Payment
+  payment(number: ID!): Payment
+  payments(customerCode: String, supplierCode: String, fromDate: Date, toDate: Date, page: Int, pageSize: Int): [Payment!]!
+
+  # Receipt
+  receipt(number: ID!): Receipt
+  receipts(supplierCode: String, warehouseCode: String, fromDate: Date, toDate: Date, page: Int, pageSize: Int): [Receipt!]!
+
+  # Warehouse & Stock
+  warehouse(code: ID!): Warehouse
+  warehouses(site: String, active: Boolean): [Warehouse!]!
+  stockLine(id: ID!): StockLine
+  stockLines(productCode: String, warehouseCode: String, location: String, page: Int, pageSize: Int): [StockLine!]!
+  stockMovements(productCode: String, warehouseCode: String, type: StockMovementType, fromDate: Date, toDate: Date, page: Int, pageSize: Int): StockMovementPage!
+
+  # Manufacturing
+  bom(code: ID!): BOM
+  boms(productCode: String, active: Boolean): [BOM!]!
+  workOrder(number: ID!): WorkOrder
+  workOrders(productCode: String, status: WorkOrderStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): [WorkOrder!]!
+  productionOrder(number: ID!): ProductionOrder
+  productionOrders(site: String, status: WorkOrderStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): [ProductionOrder!]!
+
+  # Accounting
+  accountingCode(code: ID!): AccountingCode
+  accountingCodes(type: String, active: Boolean): [AccountingCode!]!
+  costCenter(code: ID!): CostCenter
+  costCenters(active: Boolean): [CostCenter!]!
+  generalLedger(accountingCodeCode: String, fiscalYear: String!, period: Int, page: Int, pageSize: Int): [GeneralLedger!]!
+  journalEntry(number: ID!): JournalEntry
+  journalEntries(journal: String, fiscalYear: String, period: String, status: JournalEntryStatus, fromDate: Date, toDate: Date, page: Int, pageSize: Int): JournalEntryPage!
+  budgetLine(id: ID!): BudgetLine
+  budgetLines(fiscalYear: String!, accountingCodeCode: String, costCenterCode: String): [BudgetLine!]!
+
+  # Currency & Exchange
+  currency(code: ID!): Currency
+  currencies(active: Boolean): [Currency!]!
+  exchange(id: ID!): Exchange
+  exchanges(fromCurrencyCode: String, toCurrencyCode: String, effectiveDate: Date): [Exchange!]!
+
+  # HR
+  employee(code: ID!): Employee
+  employees(department: String, status: EmployeeStatus, page: Int, pageSize: Int): [Employee!]!
+  timesheet(id: ID!): Timesheet
+  timesheets(employeeCode: String, periodStart: Date, periodEnd: Date, status: String, page: Int, pageSize: Int): [Timesheet!]!
+}
+
+# ---------------------------------------------------------------------------
+# Mutation
+# ---------------------------------------------------------------------------
+
+type Mutation {
+  # Customer
+  createCustomer(input: CustomerInput!): Customer!
+  updateCustomer(code: ID!, input: CustomerInput!): Customer!
+  deleteCustomer(code: ID!): Boolean!
+
+  # Supplier
+  createSupplier(input: SupplierInput!): Supplier!
+  updateSupplier(code: ID!, input: SupplierInput!): Supplier!
+  deleteSupplier(code: ID!): Boolean!
+
+  # Product
+  createProduct(input: ProductInput!): Product!
+  updateProduct(code: ID!, input: ProductInput!): Product!
+  deleteProduct(code: ID!): Boolean!
+
+  # Sales Order
+  createSalesOrder(input: SalesOrderInput!): SalesOrder!
+  updateSalesOrder(number: ID!, input: SalesOrderInput!): SalesOrder!
+  cancelSalesOrder(number: ID!): SalesOrder!
+
+  # Purchase Order
+  createPurchaseOrder(input: PurchaseOrderInput!): PurchaseOrder!
+  updatePurchaseOrder(number: ID!, input: PurchaseOrderInput!): PurchaseOrder!
+  cancelPurchaseOrder(number: ID!): PurchaseOrder!
+
+  # Payment
+  createPayment(input: PaymentInput!): Payment!
+
+  # Work Order
+  createWorkOrder(input: WorkOrderInput!): WorkOrder!
+  releaseWorkOrder(number: ID!): WorkOrder!
+  completeWorkOrder(number: ID!, producedQuantity: Decimal!): WorkOrder!
+  cancelWorkOrder(number: ID!): WorkOrder!
+}
