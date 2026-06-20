@@ -7,7 +7,7 @@ description: 'Sage X3 is an enterprise ERP platform offering REST and GraphQL AP
   accounting, and production management across cloud and on-premise deployments.
 
   '
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/sage-x3/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -31,7 +31,7 @@ apis:
     Authentication supports Basic Auth (on-premise only), JWT tokens, and OAuth 2.0.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developer.sage.com/x3
   baseURL: https://{host}/api1/
   tags:
@@ -54,7 +54,7 @@ apis:
     on both cloud and on-premise deployments.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developer.sage.com/x3/data-integration
   baseURL: https://{host}/graphql
   tags:
@@ -74,7 +74,7 @@ apis:
     data synchronization.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://developer.sage.com/x3/data-integration
   baseURL: https://{host}/api1/
   tags:
