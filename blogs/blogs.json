@@ -3,19 +3,12 @@
   "feeds": [
     {
       "source": "https://communityhub.sage.com/us/sage_x3/b",
-      "feed_url": "https://communityhub.sage.com/us/sage_x3/b",
-      "title": "",
-      "saved": 0,
-      "method": "none"
-    },
-    {
-      "source": "https://github.com/Sage-ERP-X3",
-      "feed_url": "https://github.com/Sage-ERP-X3",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "feed_url": "",
+      "saved": 1,
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 2,
+  "fetched": "2026-06-27T13:07:27Z",
+  "agent_pulled": "2026-06-27"
 }
