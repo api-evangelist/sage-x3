@@ -87,6 +87,10 @@ apis:
   - type: Documentation
     url: https://developer.sage.com/x3/data-integration
 common:
+- type: VulnerabilityDisclosure
+  url: security/sage-x3-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/sage-x3-domain-security.yml
 - type: Website
   url: https://www.sage.com/en-us/products/sage-x3/
 - type: Documentation
