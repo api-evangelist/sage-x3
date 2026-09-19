@@ -37,6 +37,16 @@ modified: '2026-06-13'
 specificationVersion: '0.23'
 tags:
 - ERP
+- Manufacturing
+- Distribution
+- Supply Chain
+- Financial
+- Accounting
+- Inventory
+- Mid-Market
+- Enterprise
+tags_raw:
+- ERP
 - Enterprise Resource Planning
 - Manufacturing
 - Distribution
@@ -58,6 +68,13 @@ apis:
   humanURL: https://developer.sage.com/x3
   baseURL: https://{host}/api1/
   tags:
+  - REST
+  - ERP
+  - Business Objects
+  - Manufacturing
+  - Distribution
+  - Financial
+  tags_raw:
   - REST
   - ERP
   - Business Objects
