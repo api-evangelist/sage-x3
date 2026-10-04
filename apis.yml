@@ -40,7 +40,7 @@ tags:
 - Manufacturing
 - Distribution
 - Supply Chain
-- Financial
+- Finance
 - Accounting
 - Inventory
 - Mid-Market
@@ -56,6 +56,7 @@ tags_raw:
 - Inventory
 - Mid-Market
 - Enterprise
+- Financial
 apis:
 - name: Sage X3 REST Web Services
   description: 'RESTful web service interface for Sage X3 business objects. Supports
@@ -73,7 +74,7 @@ apis:
   - Business Objects
   - Manufacturing
   - Distribution
-  - Financial
+  - Finance
   tags_raw:
   - REST
   - ERP
@@ -81,6 +82,7 @@ apis:
   - Manufacturing
   - Distribution
   - Financials
+  - Financial
   properties:
   - type: Documentation
     url: https://online-help.sagex3.com/erp/12/en-us/Content/V7DEV/api-guide_api-reference-guide.html
