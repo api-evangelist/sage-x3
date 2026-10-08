@@ -60,3 +60,22 @@ notes: >
   official rate cards. Contact a Sage partner or Sage sales directly for a
   formal quote. API access (REST and GraphQL web services) is bundled with
   any paid Sage X3 subscription or license.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Cloud Subscription (SaaS)
+    access: other
+    model: subscription
+    model_how: stated
+    units: []
+    periods: []
+  - name: On-Premise Perpetual License
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
