@@ -2,6 +2,13 @@
   "repo": "sage-x3",
   "feeds": [
     {
+      "source": "https://communityhub.sage.com/us/sage_x3/b",
+      "feed_url": "https://communityhub.sage.com/us/sage_x3/b",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://github.com/Sage-ERP-X3",
       "feed_url": "https://github.com/Sage-ERP-X3",
       "title": "",
@@ -10,7 +17,7 @@
     }
   ],
   "post_count": 3,
-  "fetched": "2026-10-03T12:30:02Z",
+  "fetched": "2026-10-10T13:15:00Z",
   "agent_pulled": "2026-07-04",
   "feed_nature": "undetermined",
   "feed_nature_basis": null,
