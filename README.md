@@ -64,33 +64,120 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Sage X3 is an enterprise ERP platform providing REST and GraphQL APIs for
-managing manufacturing, distribution, financials, and supply chain operations
-in mid-market and enterprise organizations.
+Sage X3 is an enterprise ERP platform offering REST and GraphQL APIs for managing manufacturing, distribution, financials, and supply chain operations in mid-market and enterprise organizations. It provides web service interfaces for business object integration including sales orders, purchase orders, inventory, accounting, and production management across cloud and on-premise deployments.
 
-## APIs
+**Areas:** ERP · Manufacturing · Distribution · Supply Chain · Finance · Accounting · Inventory · Mid-Market · Enterprise
 
-- **REST Web Services** - Standard HTTP REST interface for Sage X3 business objects
-- **GraphQL API** - Flexible query interface for data retrieval and mutation
-- **Data Integration API** - Bulk import/export and batch processing
+## Sage X3 on APIs.io
 
-## Developer Resources
+Everything profiled for Sage X3 is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/sage-x3/](https://apis.io/providers/sage-x3/)** — or go straight to one of the APIs or properties below.
 
-- Developer Portal: https://developer.sage.com/x3
-- Online Help / API Reference: https://online-help.sagex3.com/erp/12/en-us/Content/V7DEV/api-guide_api-reference-guide.html
-- GitHub Organization: https://github.com/Sage-ERP-X3
-- Community Hub: https://communityhub.sage.com/us/sage_x3
-- Status Page: https://status.sage.com
+### APIs (3)
 
-## Authentication
+- [Sage X3 REST Web Services](https://apis.io/apis/sage-x3/sage-x3-rest-web-services/) — RESTful web service interface for Sage X3 business objects. Supports standard HTTP methods (GET, POST, PUT, DELETE) for managing entities such as customers,…
+- [Sage X3 GraphQL API](https://apis.io/apis/sage-x3/sage-x3-graphql-api/) — GraphQL interface for querying and mutating Sage X3 data. Provides a flexible, strongly-typed schema for accessing business objects with support for…
+- [Sage X3 Data Integration API](https://apis.io/apis/sage-x3/sage-x3-data-integration-api/) — Import/export and data integration API for Sage X3 enabling bulk data operations, batch task submissions, and asynchronous processing for high-volume data…
 
-- OAuth 2.0 (cloud and on-premise)
-- JWT tokens (on-premise)
-- Basic Authentication (on-premise only)
+### Published properties
 
-## Links
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- [apis.yml](apis.yml)
-- [Plans and Pricing](plans/sage-x3-plans-pricing.yml)
-- [Rate Limits](rate-limits/sage-x3-rate-limits.yml)
-- [FinOps](finops/sage-x3-finops.yml)
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Sage X3 GraphQL API](https://apis.io/graphqls/sage-x3/sage-x3-graphql/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Sage X3 Context](https://apis.io/jsonld/sage-x3/sage-x3-context/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Sage X3 Domain Security](https://apis.io/security/sage-x3/sage-x3-domain-security/)
+- [Sage X3 Vulnerability Disclosure](https://apis.io/security/sage-x3/sage-x3-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Sage X3 Plans Pricing](https://apis.io/plans/sage-x3/sage-x3-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Sage X3 Rate Limits](https://apis.io/rate-limits/sage-x3/sage-x3-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Sage X3 Finops](https://apis.io/finops/sage-x3/sage-x3-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.sage.com/en-us/products/sage-x3/)
+- [Documentation](https://developer.sage.com/x3)
+- [Pricing](https://www.sage.com/en-us/products/sage-x3/)
+- [Blog](https://communityhub.sage.com/us/sage_x3/b)
+- [Status](https://status.sage.com)
+
+## API Evangelist rating
+
+**Kin Score 27.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 46.8 |
+| Contract governance | 0.0 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 11.9 |
+| Access clarity | 15.8 |
+
+**Agent readiness 13.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/sage-x3/](https://apis.io/providers/sage-x3/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Sage X3: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/sage-x3/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
